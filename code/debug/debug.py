@@ -7,84 +7,34 @@
 import sys
 
 ##################
-# DEBUG CONSTANTS: copy to your file or use a number
+# DEBUG CONSTANTS
 ##################
-DBG_CRITICAL = 0
-DBG_INFO = 1
-DBG_VERBOSE = 2
-DBG_ALL = 3
+# Debug levels
+CRITICAL = 0
+INFO = 1
+VERBOSE = 2
+ALL = 3
+# debug file name
+DBG_NAME = "debug.py"
 
+
+##################
+# DEBUG LEVEL
+# Change this for your testing needs
+##################
+DBG_LEVEL = INFO
 
 ##################
 # DEBUG VARIABLES - DO NOT EDIT MANUALLY
 ##################
-# debug level, do not change
-DBG_LEVEL = DBG_ALL
-# debug file name
-DBG_FILE_NAME = "debug.py"
-# file name of initializing file
-FILE_NAME = "FILE_UNDEFINED"
 # state of debug, enabled or disabled
-ENABLED = False
+ENABLED = True
 # state of debug info
 QUIET_MODE = False
 
 ##################
 # DEBUG FUNCTIONS
 ##################
-# sets level of verobsity to print
-# WARNING: If multiple users use dbgSetLevel, the level is bound to change everywhere,
-#   recommended to only use this for testing then remove the line in your code
-#
-# Input:
-#   int_level: INT value of minimum level to print DBG_CRITICAL, DBG_INFO, DBG_VERBOSE, DBG_ALL
-def setLevel(int_level):
-  global DBG_LEVEL, QUIET_MODE
-  DBG_LEVEL = int_level
-  if not QUIET_MODE:
-    print("debug.py (DBG-INFO): " + FILE_NAME + ", debug level set to" + dbgLevelString(int_level))
-
-
-# enables a file's console prints
-#
-def enable():
-  global ENABLED
-  ENABLED = True
-  if not QUIET_MODE:
-    print("debug.py (DBG-INFO): " + FILE_NAME)
-
-
-# disables a file's console prints
-#
-def disable():
-  global ENABLED
-  ENABLED = False
-  if not QUIET_MODE:
-    print("debug.py (DBG-INFO): " + FILE_NAME + ", console printing disabled")
-
-# enable debug.py informational prints
-#
-def quietMode(bool_quiet):
-  global QUIET_MODE
-  QUIET_MODE = bool_quiet
-  if not QUIET_MODE:
-    print("debug.py (DBG-INFO): debug.py, info printing enabled")
-
-
-# init function
-# Input:
-#   int_level: INT value of level to print, will print everything below as well
-#   string_filename: STRING of file name youre initializing debug in
-def initFile(int_level, string_filename):
-  global FILE_NAME, DBG_LEVEL, ENABLED
-  FILE_NAME = str(string_filename)
-  DBG_LEVEL = int_level
-  ENABLED = True
-  if not QUIET_MODE:
-    print("debug.py (DBG-INIT): " + FILE_NAME + " init, settings:" + dbgLevelString(DBG_LEVEL) \
-    + " (Enabled = " + str(ENABLED) + ")")
-
-
 def dprintHeader(int_level, int_tabs=0):
   if int_level <= DBG_LEVEL and ENABLED:
     tabs = dbgMakeTabs(int_tabs)
@@ -165,26 +115,27 @@ def dprintListln(int_level, list_output, int_tabs=0, int_start=0, int_end=0):
 
 
 ##################
-# PRIVATE FUNCTIONS, do not call
+# PRIVATE FUNCTIONS
+# DO NOT CALL THESE
 ##################
 # formatting the print
 def dbgLevelString(int_level):
-  if int_level < DBG_CRITICAL:
-    return " (UNDEFINED"
-  elif int_level == DBG_CRITICAL:
-    return " (CRITICAL)"
-  elif int_level == DBG_INFO:
-    return " (INFO)"
-  elif int_level == DBG_VERBOSE:
-    return " (VERBOSE)"
-  elif int_level == DBG_ALL:
-    return " (ALL)"
+  if int_level < CRITICAL:
+    return "<UNDEFINED>"
+  elif int_level == CRITICAL:
+    return "<CRITICAL>"
+  elif int_level == INFO:
+    return "<INFO>"
+  elif int_level == VERBOSE:
+    return "<VERBOSE>"
+  elif int_level == ALL:
+    return "<ALL>"
   else:
-    return " (DEV-" + str(int_level) + ")"
+    return "<DEV-" + str(int_level) + ">"
 
 # format the tabs
 def dbgHeader(tabs, int_level):
-  return tabs + FILE_NAME + dbgLevelString(int_level) + ": "
+  return tabs + dbgLevelString(int_level) + ": "
 
 # make the tabs
 def dbgMakeTabs(int_tabs):
@@ -192,3 +143,48 @@ def dbgMakeTabs(int_tabs):
   for i in range(int_tabs):
     tabs += "\t"
   return tabs
+
+# dumps debug info
+def dumpDebugInfo():
+  print("\n\ndebug.py(): DEBUG STATE")
+  print("\tENABLED: " + str(ENABLED))
+  print("\tDBG_LEVEL: " + str(DBG_LEVEL))
+  print("\tQUIET_MODE: " + str(QUIET_MODE) + "\n\n")
+
+# sets level of verobsity to print
+# WARNING: If multiple users use dbgSetLevel, the level is bound to change everywhere,
+#   recommended to only use this for testing then remove the line in your code
+#
+# Input:
+#   int_level: INT value of minimum level to print CRTICIAL, INFO, VERBOSE, ALL
+def setLevel(int_level):
+  global DBG_LEVEL, QUIET_MODE
+  DBG_LEVEL = int_level
+  if not QUIET_MODE:
+    print("debug.py (DBG-INFO): " + ", debug level set to" + dbgLevelString(int_level) + " - only the author of DEBUG.PY should be using this")
+
+
+# enables a file's console prints
+#
+def enable():
+  global ENABLED
+  ENABLED = True
+  if not QUIET_MODE:
+    print("debug.py (DBG-INFO): console printing enabled - only the author of DEBUG.PY should be using this")
+
+
+# disables a file's console prints
+#
+def disable():
+  global ENABLED
+  ENABLED = False
+  if not QUIET_MODE:
+    print("debug.py (DBG-INFO): console printing disabled - only the author of DEBUG.PY should be using this")
+
+# enable debug.py informational prints
+#
+def quietMode(bool_quiet):
+  global QUIET_MODE
+  QUIET_MODE = bool_quiet
+  if not QUIET_MODE:
+    print("debug.py (DBG-INFO): debug.py, info printing enabled - only the author of DEBUG.PY should be using this")
