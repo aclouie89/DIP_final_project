@@ -1,6 +1,6 @@
 import sys
-from debug import debug as dbg
 
+from debug import debug as dbg
 # These values can be used as integers, they wont change in value
 # if you specify an integer HIGHER than 3 then everything will show
 # CRITICAL = 0

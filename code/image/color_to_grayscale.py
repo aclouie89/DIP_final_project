@@ -1,6 +1,9 @@
 #!/usr/bin/python
+#
+# STANDALONE SCRIPT TO CONVERT FILES
+#
 # usage:
-#   python3 color_to_grayscale.py raw/oscar_wilde_1.jpg
+#   python3 test_color_to_grayscale.py raw/oscar_wilde_1.jpg
 # restrictions:
 #   only converts jpg
 #   invalid files/paths will not cause an error the result file will be empty instead

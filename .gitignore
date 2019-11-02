@@ -1,0 +1,5 @@
+
+*.pyc
+*.pyc
+code/image/.DS_Store
+code/debug/__pycache__/__init__.cpython-37.pyc

@@ -36,10 +36,11 @@ QUIET_MODE = False
 # DEBUG FUNCTIONS
 ##################
 def dprintHeader(int_level, int_tabs=0):
-  if int_level <= DBG_LEVEL and ENABLED:
-    tabs = dbgMakeTabs(int_tabs)
-    sys.stdout.write(dbgHeader(tabs, int_level))
-    sys.stdout.flush()
+  if validLevel(int_level):
+    if int_level <= DBG_LEVEL and ENABLED:
+      tabs = dbgMakeTabs(int_tabs)
+      sys.stdout.write(dbgHeader(tabs, int_level))
+      sys.stdout.flush()
 
 # prints without a new line
 #
@@ -47,10 +48,11 @@ def dprintHeader(int_level, int_tabs=0):
 #   string_output: STRING to output
 #   int_tabs: (OPTIONAL) INT number of tabs to print before output
 def dprint(int_level, string_output, int_tabs=0):
-  if int_level <= DBG_LEVEL and ENABLED: 
-    tabs = dbgMakeTabs(int_tabs)
-    sys.stdout.write(tabs + str(string_output))
-    sys.stdout.flush()
+  if validLevel(int_level):
+    if int_level <= DBG_LEVEL and ENABLED: 
+      tabs = dbgMakeTabs(int_tabs)
+      sys.stdout.write(tabs + str(string_output))
+      sys.stdout.flush()
 
 
 # prints with a newline
@@ -60,10 +62,11 @@ def dprint(int_level, string_output, int_tabs=0):
 #   string_output: STRING to output
 #   int_tabs: (OPTIONAL) INT number of tabs to print before output
 def dprintln(int_level, string_output, int_tabs=0):
-  if int_level <= DBG_LEVEL and ENABLED:
-    tabs = dbgMakeTabs(int_tabs)
-    print(dbgHeader(tabs, int_level) + str(string_output))
-
+  if validLevel(int_level):
+    if isinstance(int_level, int):
+      if int_level <= DBG_LEVEL and ENABLED:
+        tabs = dbgMakeTabs(int_tabs)
+        print(dbgHeader(tabs, int_level) + str(string_output))
 
 
 # prints a list with commas
@@ -76,19 +79,20 @@ def dprintln(int_level, string_output, int_tabs=0):
 #   int_start:  (OPTIONAL) INDEX to start print (if an invalid int_start is sent, will send in list range)
 #   int_end:  (OPTIONAL) INDEX to end print (if an invalid int_start is sent, will send in list range)
 def dprintList(int_level, list_output, int_tabs=0, int_start=0, int_end=0):
-  if int_level <= DBG_LEVEL and ENABLED:
-    output = ""
-    if int_start == 0 and int_end == 0:
-      int_start = 0
-      int_end = len(list_output)
-    tabs = dbgMakeTabs(int_tabs)
-    # iterate and print
-    for i in range(0, len(list_output)):
-      if i >= int_start and i <= int_end:
-        output += str(list_output[i])
-        if (i < int_end) and (i < len(list_output) - 1):
-          output += ", "
-    print(tabs + output)
+  if validLevel(int_level):
+    if int_level <= DBG_LEVEL and ENABLED:
+      output = ""
+      if int_start == 0 and int_end == 0:
+        int_start = 0
+        int_end = len(list_output)
+      tabs = dbgMakeTabs(int_tabs)
+      # iterate and print
+      for i in range(0, len(list_output)):
+        if i >= int_start and i <= int_end:
+          output += str(list_output[i])
+          if (i < int_end) and (i < len(list_output) - 1):
+            output += ", "
+      print(tabs + output)
 
 
 # prints a list with newlines
@@ -101,16 +105,16 @@ def dprintList(int_level, list_output, int_tabs=0, int_start=0, int_end=0):
 #   int_start:  INDEX to start print (if an invalid int_start is sent, will send in list range)
 #   int_end:  INDEX to end print (if an invalid int_start is sent, will send in list range)
 def dprintListln(int_level, list_output, int_tabs=0, int_start=0, int_end=0):
-  if int_level >= DBG_LEVEL and ENABLED:
-    if int_start == 0 and int_end == 0:
-      int_start = 0
-      int_end = len(list_output)
-    tabs = dbgMakeTabs(int_tabs)
-    # iterate and print
-    for i in range(0, len(list_output)):
-      if i > int_start and i < int_end:
-        print(tabs + "[" + str(i)  + "]: " + str(list_output[i]))
-        #sys.stdout.flush()
+  if validLevel(int_level):
+    if int_level >= DBG_LEVEL and ENABLED:
+      if int_start == 0 and int_end == 0:
+        int_start = 0
+        int_end = len(list_output)
+      tabs = dbgMakeTabs(int_tabs)
+      # iterate and print
+      for i in range(0, len(list_output)):
+        if i > int_start and i < int_end:
+          print(tabs + "[" + str(i)  + "]: " + str(list_output[i]))
 
 
 
@@ -135,7 +139,10 @@ def dbgLevelString(int_level):
 
 # format the tabs
 def dbgHeader(tabs, int_level):
-  return tabs + dbgLevelString(int_level) + ": "
+  if QUIET_MODE == False:
+    return tabs + dbgLevelString(int_level) + " "
+  else:
+    return tabs
 
 # make the tabs
 def dbgMakeTabs(int_tabs):
@@ -161,7 +168,7 @@ def setLevel(int_level):
   global DBG_LEVEL, QUIET_MODE
   DBG_LEVEL = int_level
   if not QUIET_MODE:
-    print("debug.py (DBG-INFO): " + ", debug level set to" + dbgLevelString(int_level) + " - only the author of DEBUG.PY should be using this")
+    print("debug.py (DBG-INFO): " + "debug level set to" + dbgLevelString(int_level) + " please only call this once")
 
 
 # enables a file's console prints
@@ -170,7 +177,7 @@ def enable():
   global ENABLED
   ENABLED = True
   if not QUIET_MODE:
-    print("debug.py (DBG-INFO): console printing enabled - only the author of DEBUG.PY should be using this")
+    print("debug.py (DBG-INFO): console printing enabled")
 
 
 # disables a file's console prints
@@ -179,7 +186,7 @@ def disable():
   global ENABLED
   ENABLED = False
   if not QUIET_MODE:
-    print("debug.py (DBG-INFO): console printing disabled - only the author of DEBUG.PY should be using this")
+    print("debug.py (DBG-INFO): console printing disabled")
 
 # enable debug.py informational prints
 #
@@ -187,4 +194,13 @@ def quietMode(bool_quiet):
   global QUIET_MODE
   QUIET_MODE = bool_quiet
   if not QUIET_MODE:
-    print("debug.py (DBG-INFO): debug.py, info printing enabled - only the author of DEBUG.PY should be using this")
+    print("debug.py (DBG-INFO): debug.py, info and tag printing enabled")
+
+# checks if level is an integer
+#
+def validLevel(int_level):
+  if isinstance(int_level, int):
+    return True
+  else:
+    print("debug.py " + str(int_level) + " is not an integer level")
+    return False
