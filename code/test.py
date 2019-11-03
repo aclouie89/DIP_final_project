@@ -15,6 +15,8 @@ ALL = dbg.ALL
 # setup image module
 from image import image_handler as imgh
 
+from morph import morph as mo
+
 #
 # main function for testing
 # EDIT ME
@@ -32,6 +34,15 @@ def main():
   [ret_val, image] = imghTest("./image/_raw/oscar_wilde_1.jpg")
   if ret_val == rv.SUCCESS:
     imghTest_write("test_image.jpg", image)
+
+  ret_image = mo.erosion(image)
+  imghTest_write("test_erosion_image.jpg", ret_image)
+  ret_image = mo.dilation(image)
+  imghTest_write("test_dilation_image.jpg", ret_image)
+  ret_image = mo.open(image)
+  imghTest_write("test_open_image.jpg", ret_image)
+  ret_image = mo.close(image)
+  imghTest_write("test_close_image.jpg", ret_image)
 
   #
   # end test functions
