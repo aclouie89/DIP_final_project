@@ -16,15 +16,15 @@ def dilate(image, window):
     if window == WIN_BAR:
         for x in range(1, image.shape[0] + 1):
             for y in range(1, image.shape[1] + 1):
-                output[x][y] = output[x][y] or original[x][y-1]
-                output[x][y] = output[x][y] or original[x][y+1]
+                output[x][y] = output[x][y] and original[x][y-1]
+                output[x][y] = output[x][y] and original[x][y+1]
     else:
         for x in range(1, image.shape[0] + 1):
             for y in range(1, image.shape[1] + 1):
-                output[x][y] = output[x][y] or original[x][y-1]
-                output[x][y] = output[x][y] or original[x][y+1]
-                output[x][y] = output[x][y] or original[x-1][y]
-                output[x][y] = output[x][y] or original[x+1][y]
+                output[x][y] = output[x][y] and original[x][y-1]
+                output[x][y] = output[x][y] and original[x][y+1]
+                output[x][y] = output[x][y] and original[x-1][y]
+                output[x][y] = output[x][y] and original[x+1][y]
 
     # Remove padding
     oImg = image.copy()
@@ -47,15 +47,15 @@ def erode(image, window):
     if window == WIN_BAR:
         for x in range(1, image.shape[0] + 1):
             for y in range(1, image.shape[1] + 1):
-                output[x][y] = output[x][y] and original[x][y - 1]
-                output[x][y] = output[x][y] and original[x][y + 1]
+                output[x][y] = output[x][y] or original[x][y - 1]
+                output[x][y] = output[x][y] or original[x][y + 1]
     else:
         for x in range(1, image.shape[0] + 1):
             for y in range(1, image.shape[1] + 1):
-                output[x][y] = output[x][y] and original[x][y - 1]
-                output[x][y] = output[x][y] and original[x][y + 1]
-                output[x][y] = output[x][y] and original[x - 1][y]
-                output[x][y] = output[x][y] and original[x + 1][y]
+                output[x][y] = output[x][y] or original[x][y - 1]
+                output[x][y] = output[x][y] or original[x][y + 1]
+                output[x][y] = output[x][y] or original[x - 1][y]
+                output[x][y] = output[x][y] or original[x + 1][y]
 
     # Remove padding
     oImg = image.copy()
