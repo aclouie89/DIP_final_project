@@ -110,7 +110,7 @@ def globalThresholding(image):
               new_image[row, col] = 255
           else:
               new_image[row, col] = 0
-  return new_image
+  return [new_image, threshold]
 
 
 ###################
@@ -176,11 +176,11 @@ def imageToBimodal(type, image, threshold=127):
   # global threshold
   elif type == GLOBAL_THRESH:
     dbg.dprintln(INFO, "Global threshold, automatically finding optimal threshold based on histogram")
-    image = globalThresholding(image)
+    [image, threshold] = globalThresholding(image)
   # not yet implemented
   else:
     dbg.dprintln(CRITICAL, "Thresholding mode has no valid implementation")
-  return image
+  return [image, threshold]
 
 
 # checks if file exists

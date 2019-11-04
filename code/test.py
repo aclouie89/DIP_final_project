@@ -36,11 +36,11 @@ def main():
     # TESTING GRAYSCALE DISCRETATION AND BIMODAL IMAGES
     # discrete grayscale image
     imgh.writeImage(imgh.BW, "test_image_discretegrayscale.jpg", image)
-    # user defined threshold image
-    user_image = imgh.imageToBimodal(imgh.USER_THRESH, image, 220)
+    # user defined threshold image + threshold value
+    [user_image, user_threshold] = imgh.imageToBimodal(imgh.USER_THRESH, image, 220)
     imgh.writeImage(imgh.BIN, "test_image_bimodal_user.jpg", user_image)
-    # global defined threshold image
-    global_image = imgh.imageToBimodal(imgh.GLOBAL_THRESH, image)
+    # global defined threshold image + global threshold value
+    [global_image, global_threshold] = imgh.imageToBimodal(imgh.GLOBAL_THRESH, image)
     imgh.writeImage(imgh.BIN, "test_image_bimodal_global.jpg", global_image)
 
     # TEST MORPHOLOGIES
