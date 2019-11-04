@@ -73,8 +73,8 @@ class binary_image:
         for x in range(image.shape[0]):
             for y in range(image.shape[1]):
                 if(bin_img[x][y] <= threshold):
-                    bin_img[x][y] = 255
-                else:
                     bin_img[x][y] = 0
+                else:
+                    bin_img[x][y] = 255
 
         return bin_img
