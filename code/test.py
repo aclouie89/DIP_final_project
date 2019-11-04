@@ -22,7 +22,8 @@ from morph import morph as mo
 #
 def main():
   dbg.enable()
-  dbg.setLevel(dbg.ALL)
+  # SET DEBUG LEVEL
+  dbg.setLevel(ALL)
   dbg.dprintln(INFO, "test.py main() started")
   #
   # start test functions
@@ -32,16 +33,25 @@ def main():
   # ./image or image all works
   [ret_val, image] = imghTest("./image/_raw/oscar_wilde_1.jpg")
   if ret_val == rv.SUCCESS:
-    imghTest_write("test_image.jpg", image)
-    # test morphologies
-    ret_image = mo.erosion(image,127, None )
-    imghTest_write("test_erosion_image.jpg", ret_image)
-    ret_image = mo.dilation(image,127, None)
-    imghTest_write("test_dilation_image.jpg", ret_image)
-    ret_image = mo.open(image,127, None)
-    imghTest_write("test_open_image.jpg", ret_image)
-    ret_image = mo.close(image,127, None)
-    imghTest_write("test_close_image.jpg", ret_image)
+    # TESTING GRAYSCALE DISCRETATION AND BIMODAL IMAGES
+    # discrete grayscale image
+    imgh.writeImage(imgh.BW, "test_image_discretegrayscale.jpg", image)
+    # user defined threshold image
+    user_image = imgh.imageToBimodal(imgh.USER_THRESH, image, 220)
+    imgh.writeImage(imgh.BIN, "test_image_bimodal_user.jpg", user_image)
+    # global defined threshold image
+    global_image = imgh.imageToBimodal(imgh.GLOBAL_THRESH, image)
+    imgh.writeImage(imgh.BIN, "test_image_bimodal_global.jpg", global_image)
+
+    # TEST MORPHOLOGIES
+    # ret_image = mo.erosion(image,127, None )
+    # imghTest_write("test_erosion_image.jpg", ret_image)
+    # ret_image = mo.dilation(image,127, None)
+    # imghTest_write("test_dilation_image.jpg", ret_image)
+    # ret_image = mo.open(image,127, None)
+    # imghTest_write("test_open_image.jpg", ret_image)
+    # ret_image = mo.close(image,127, None)
+    # imghTest_write("test_close_image.jpg", ret_image)
 
   #
   # end test functions
@@ -62,13 +72,6 @@ def imghTest(img_path):
   if ret_val == rv.SUCCESS:
     [ret_val, image] = imgh.readImageGrayscale(img_path)
   return [ret_val, image]
-
-# testing writes
-def imghTest_write(filename, image):
-  BW = imgh.BW
-  BINARY = imgh.BINARY
-  dbg.dprintln(VERBOSE, "imghTest_Write() writing image", 1)
-  imgh.writeImage(BW, filename, image)
 
 
 
