@@ -182,7 +182,6 @@ def imageToBimodal(type, image, threshold=127):
     dbg.dprintln(CRITICAL, "Thresholding mode has no valid implementation")
   return [image, threshold]
 
-
 # checks if file exists
 # Input:
 #   abs_image_path: (STRING) ABSOLUTE image path
@@ -193,3 +192,15 @@ def imageExists(abs_image_path):
     return retval.SUCCESS
   else:
     return retval.ERROR_NO_FILE
+
+# inverses image, used for white text on black background
+# Input:
+#   image: (numpy matrix) image matrix
+# Output:
+#   image: (numpy matrix) inversed image matrix
+def invert(image):
+  new_image = image.copy()
+  for row in range(new_image.shape[0]):
+    for col in range(new_image.shape[1]):
+      new_image[row][col] = abs(255 - image[row][col])
+  return new_image

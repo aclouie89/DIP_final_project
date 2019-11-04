@@ -36,6 +36,9 @@ def main():
     # TESTING GRAYSCALE DISCRETATION AND BIMODAL IMAGES
     # discrete grayscale image
     imgh.writeImage(imgh.BW, "test_image_discretegrayscale.jpg", image)
+    # inverted test
+    invert_image = imgh.invert(image)
+    imgh.writeImage(imgh.BW, "test_image_inverted_discretegrayscale.jpg", invert_image)
     # user defined threshold image + threshold value
     [user_image, user_threshold] = imgh.imageToBimodal(imgh.USER_THRESH, image, 220)
     imgh.writeImage(imgh.BIN, "test_image_bimodal_user.jpg", user_image)
