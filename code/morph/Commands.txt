@@ -1,7 +1,0 @@
--m method: dilate, erode, open, close
--w window: 0([1, 1, 1]), 1(cross window [[0 1 0], [1 1 1], [0 1 0]])
-
-python dip_final.py -i image.jpg -m dilate -w 0
-python dip_final.py -i image.jpg -m erode -w 0
-python dip_final.py -i image.jpg -m open -w 1
-python dip_final.py -i image.jpg -m close -w 1
