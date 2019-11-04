@@ -1,23 +1,80 @@
-def open(image, threshold, window):
-  return image
+import numpy as np
 
-def close(image, threshold, window):
-  return image
+WIN_BAR = 0
+WIN_PLUS = 1
 
-def erosion(image, threshold, window):
-  return image
+def dilate(image, window):
+    # Padding
+    original = np.zeros((image.shape[0]+2, image.shape[1]+2), np.uint8)
+    # Copy image information
+    for x in range(1, image.shape[0]+1):
+        for y in range(1, image.shape[1]+1):
+            original[x][y] = image[x-1][y-1]
 
-def dilation(image, threshold, window):
-  return image
+    # Dilation
+    output = original.copy()
+    if window == WIN_BAR:
+        for x in range(1, image.shape[0] + 1):
+            for y in range(1, image.shape[1] + 1):
+                output[x][y] = output[x][y] or original[x][y-1]
+                output[x][y] = output[x][y] or original[x][y+1]
+    else:
+        for x in range(1, image.shape[0] + 1):
+            for y in range(1, image.shape[1] + 1):
+                output[x][y] = output[x][y] or original[x][y-1]
+                output[x][y] = output[x][y] or original[x][y+1]
+                output[x][y] = output[x][y] or original[x-1][y]
+                output[x][y] = output[x][y] or original[x+1][y]
 
-def setWindow(matrix, row_index, col_index):
-  matrix[row_index][col_index] = 1
-  return matrix
+    # Remove padding
+    oImg = image.copy()
+    for x in range(image.shape[0]):
+        for y in range(image.shape[1]):
+            oImg[x][y] = output[x+1][y+1]
 
-def setPlusWindow(window):
-  # window = setWindow(window, 1,0 )
-  # window = setWindow(window, 1,1 )
-  # window = setWindow(window, 1,2 )
-  # window = setWindow(window, 0,1 )
-  # window = setWindow(window, 2,1 )
-  return window
+    return oImg
+
+def erode(image, window):
+    # Padding
+    original = np.zeros((image.shape[0] + 2, image.shape[1] + 2), np.uint8)
+    # Copy image information
+    for x in range(1, image.shape[0] + 1):
+        for y in range(1, image.shape[1] + 1):
+            original[x][y] = image[x - 1][y - 1]
+
+    # Erosion
+    output = original.copy()
+    if window == WIN_BAR:
+        for x in range(1, image.shape[0] + 1):
+            for y in range(1, image.shape[1] + 1):
+                output[x][y] = output[x][y] and original[x][y - 1]
+                output[x][y] = output[x][y] and original[x][y + 1]
+    else:
+        for x in range(1, image.shape[0] + 1):
+            for y in range(1, image.shape[1] + 1):
+                output[x][y] = output[x][y] and original[x][y - 1]
+                output[x][y] = output[x][y] and original[x][y + 1]
+                output[x][y] = output[x][y] and original[x - 1][y]
+                output[x][y] = output[x][y] and original[x + 1][y]
+
+    # Remove padding
+    oImg = image.copy()
+    for x in range(image.shape[0]):
+        for y in range(image.shape[1]):
+            oImg[x][y] = output[x + 1][y + 1]
+
+    return oImg
+
+
+def open(image, window):
+    oImg = erode(image, window)
+    oImg = dilate(oImg, window)
+
+    return oImg
+
+
+def close(image, window):
+    oImg = dilate(image, window)
+    oImg = erode(oImg, window)
+
+    return oImg

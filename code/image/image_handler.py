@@ -144,17 +144,17 @@ def readImageGrayscale(abs_image_path, binarize=False):
 def writeImage(type, filename, image):
   if(".jpg" in str(filename)):
     if type == BW:
-      dbg.dprintln(INFO, "writeImage() Writing BW file", 1)
+      dbg.dprintln(INFO, "writeImage() Writing BW file " + str(filename), 1)
       path = "image/bw/" + str(filename)
       cv2.imwrite(path, image)
     elif type == BIN:
-      dbg.dprintln(INFO, "writeImage() Writing BINARY file", 1)
+      dbg.dprintln(INFO, "writeImage() Writing BINARY file " + str(filename), 1)
       path = "image/binary/" + str(filename)
       cv2.imwrite(path, image)
     else:
-      dbg.dprintln(INFO, "writeImage() Type is not BW or BINARY, not writing image", 1)
+      dbg.dprintln(INFO, "writeImage() Type is not BW or BINARY, not writing image " + str(filename), 1)
   else:
-    dbg.dprintln(INFO, "writeImage() .JPG extension not found in filename, not writing image", 1)
+    dbg.dprintln(INFO, "writeImage() .JPG extension not found in filename, not writing image " + str(filename), 1)
 
 # returns a bimodal image
 # Input:

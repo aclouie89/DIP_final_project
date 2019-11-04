@@ -44,14 +44,15 @@ def main():
     imgh.writeImage(imgh.BIN, "test_image_bimodal_global.jpg", global_image)
 
     # TEST MORPHOLOGIES
-    # ret_image = mo.erosion(image,127, None )
-    # imghTest_write("test_erosion_image.jpg", ret_image)
-    # ret_image = mo.dilation(image,127, None)
-    # imghTest_write("test_dilation_image.jpg", ret_image)
-    # ret_image = mo.open(image,127, None)
-    # imghTest_write("test_open_image.jpg", ret_image)
-    # ret_image = mo.close(image,127, None)
-    # imghTest_write("test_close_image.jpg", ret_image)
+    # erosion
+    ret_image = mo.erode(user_image, 1 )
+    imgh.writeImage(imgh.BIN, "test_image_bimodal_user_erode.jpg", ret_image)
+    ret_image = mo.dilate(user_image, 1 )
+    imgh.writeImage(imgh.BIN, "test_image_bimodal_user_dilation.jpg", ret_image)
+    ret_image = mo.open(user_image, 1 )
+    imgh.writeImage(imgh.BIN, "test_image_bimodal_user_open.jpg", ret_image)
+    ret_image = mo.close(user_image, 1 )
+    imgh.writeImage(imgh.BIN, "test_image_bimodal_user_close.jpg", ret_image)
 
   #
   # end test functions
