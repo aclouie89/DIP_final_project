@@ -1,0 +1,8 @@
+Which text-extractor?
+check out here: https://github.com/prabhakar267/image2text
+
+How to install on windows10?
+1) install tesseract-ocr from UB Mannheim here: https://github.com/UB-Mannheim/tesseract/wiki
+2) add "C:\Program Files\Tesseract-OCR" (change to ur path)  to system variable "Path"
+create new system variable: "TESSDATA_PREFIX", value is "C:\Program Files\Tesseract-OCR\tessdata"(change to ur path)
+3) reboot and enjoy
