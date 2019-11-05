@@ -2,4 +2,6 @@
 *.pyc
 *.pyc
 code/image/.DS_Store
+code/image/binary/*
+code/image/bw/*
 code/debug/__pycache__/__init__.cpython-37.pyc
