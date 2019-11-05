@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # main
 import cv2
+import argparse
+import config as cfg
 
 # import retval
 import retval as rv
@@ -31,7 +33,14 @@ def main():
 
   # image handler testing
   # ./image or image all works
-  [ret_val, image] = imghTest("./image/_raw/oscar_wilde_1.jpg")
+  # construct the argument parser and parse the arguments
+  ap = argparse.ArgumentParser()
+  ap.add_argument("-i", "--image", type=str,
+    help="path to input image")
+  args = vars(ap.parse_args())
+
+  # load the input image 
+  [ret_val, image] = imghTest(args["image"])
   if ret_val == rv.SUCCESS:
     # TESTING GRAYSCALE DISCRETATION AND BIMODAL IMAGES
     # discrete grayscale image
@@ -68,13 +77,25 @@ def main():
 # testing exists & reading
 def imghTest(img_path):
   image = None
-  dbg.dprintln(VERBOSE, "imghTest() img_path = " + img_path, 1)
+  image_path = img_path
+
+  # load default image if image is left blank
+  if not img_path:
+    dbg.dprintln(INFO, "NO IMAGE PATH SPECIFIED, LOADING DEFAULT IMAGE: " + cfg.DEFAULT_IMAGE_PATH)
+    image_path = cfg.DEFAULT_IMAGE_PATH
+
+  dbg.dprintln(VERBOSE, "imghTest() image_path = " + image_path, 1)
+  
   # test case 1: check if file exists (THIS CHECKS FROM OUR CURRENT PATH)
-  ret_val = imgh.imageExists(img_path)
+  ret_val = imgh.imageExists(image_path)
   dbg.dprintln(INFO, "imghTest() image_exists() = " + rv.getRetString(ret_val), 1)
   # test case 2: convert image to grayscale
   if ret_val == rv.SUCCESS:
-    [ret_val, image] = imgh.readImageGrayscale(img_path)
+    [ret_val, image] = imgh.readImageGrayscale(image_path)
+  elif ret_val == rv.ERROR_NO_FILE:
+    dbg.dprintln(INFO, "NO FILE AT SPECIFIED PATH")
+  elif ret_val == rv.ERROR_NO_IMAGE:
+    dbg.dprintln(INFO, "NO IMAGE AT SPECIFIED PATH")
   return [ret_val, image]
 
 
