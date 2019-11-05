@@ -3,6 +3,7 @@
 import cv2
 import argparse
 import config as cfg
+from util import arg_parse_helper as aph
 
 # import retval
 import retval as rv
@@ -37,13 +38,13 @@ def main():
   ap = argparse.ArgumentParser()
   ap.add_argument("-i", "--image", type=str,
     help="path to input image")
-  ap.add_argument("-c", "--conversion", type=conversion2int, default=cfg.CONVERSION_ARG_BW,
+  ap.add_argument("-c", "--conversion", type=aph.conversion2int, default=cfg.CONVERSION_ARG_BW,
     help="intermediate image conversion: 'bw' or 'bin'; defaults to 'bw'")
   ap.add_argument("-t", "--threshold", type=int,
     help="define an integer threshold for bimodal image conversion: (0-255)")
-  ap.add_argument("-m", "--morph", type=morph2int,
+  ap.add_argument("-m", "--morph", type=aph.morph2int,
     help="define a morphological operation: 'erode', 'dilate', 'open' or 'close'")
-  ap.add_argument("--invert", type=str2bool, default=False,
+  ap.add_argument("--invert", type=aph.str2bool, default=False,
     help="invert image?:'t' or 'f'; defaults to False")
   
   args = vars(ap.parse_args())
@@ -127,39 +128,6 @@ def imghTest(img_path):
     dbg.dprintln(INFO, "NO IMAGE AT SPECIFIED PATH")
   return [ret_val, image]
 
-
-## for parsing boolean arguments
-def str2bool(v):
-  if isinstance(v, bool):
-    return v
-  if v.lower() in ('yes', 'true', 't', 'y', '1'):
-    return True
-  elif v.lower() in ('no', 'false', 'f', 'n', '0'):
-    return False
-  else:
-    raise argparse.ArgumentTypeError('Boolean value expected.')
-
-## for parsing intermediate image conversion arguments
-def conversion2int(v):
-  if v.lower() == "bw":
-    return cfg.CONVERSION_ARG_BW
-  elif v.lower() == "bin":
-    return cfg.CONVERSION_ARG_BIN
-  else:
-    raise argparse.ArgumentTypeError('Invalid image conversion.')
-
-## for parsing morphological operation arguments
-def morph2int(v):
-  if v.lower() == "erode":
-    return cfg.MORPH_ARG_ERODE
-  elif v.lower() == "dilate":
-    return cfg.MORPH_ARG_DILATE
-  elif v.lower() == "open":
-    return cfg.MORPH_ARG_OPEN
-  elif v.lower() == "close":
-    return cfg.MORPH_ARG_CLOSE
-  else:
-    raise argparse.ArgumentTypeError('Invalid morphological operation.')
 
 ##########
 # call main for testing
