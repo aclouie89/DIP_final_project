@@ -25,13 +25,19 @@ def conversion2int(v):
 
 ## for parsing morphological operation arguments
 def morph2int(v):
-  if v.lower() == "erode":
-    return cfg.MORPH_ARG_ERODE
-  elif v.lower() == "dilate":
-    return cfg.MORPH_ARG_DILATE
-  elif v.lower() == "open":
-    return cfg.MORPH_ARG_OPEN
-  elif v.lower() == "close":
-    return cfg.MORPH_ARG_CLOSE
-  else:
-    raise argparse.ArgumentTypeError('Invalid morphological operation.')
+  # get unique list of morph args
+  arg_list = list(set([arg.strip() for arg in v.split(',')]))
+
+  morph_dict = {
+    "erode": cfg.MORPH_ARG_ERODE,
+    "dilate": cfg.MORPH_ARG_DILATE,
+    "open": cfg.MORPH_ARG_OPEN,
+    "close": cfg.MORPH_ARG_CLOSE
+  }
+
+  return ([morph_dict[arg] if arg in morph_dict else morphException()
+    for arg in arg_list])
+
+def morphException():
+  raise argparse.ArgumentTypeError('Invalid morphological operation.')
+

@@ -43,7 +43,7 @@ def main():
   ap.add_argument("-t", "--threshold", type=int,
     help="define an integer threshold for bimodal image conversion: (0-255)")
   ap.add_argument("-m", "--morph", type=aph.morph2int,
-    help="define a morphological operation: 'erode', 'dilate', 'open' or 'close'")
+    help="define any number of morphological operations separated by commas: 'erode', 'dilate', 'open' or 'close'")
   ap.add_argument("--invert", type=aph.str2bool, default=False,
     help="invert image?:'t' or 'f'; defaults to False")
   
@@ -81,18 +81,19 @@ def main():
     if not args["morph"]:
       dbg.dprintln(INFO, "No morphological operation defined; operation will not be applied to image")
     else:
-      if args["morph"] == cfg.MORPH_ARG_ERODE:
-        ret_image = mo.erode(intermediate_image, 1 )
-        imgh.writeImage(imgh.BIN, "test_image_bimodal_user_erode.jpg", ret_image)
-      elif args["morph"] == cfg.MORPH_ARG_DILATE:
-        ret_image = mo.dilate(intermediate_image, 1 )
-        imgh.writeImage(imgh.BIN, "test_image_bimodal_user_dilation.jpg", ret_image)
-      elif args["morph"] == cfg.MORPH_ARG_OPEN:
-        ret_image = mo.open(intermediate_image, 1 )
-        imgh.writeImage(imgh.BIN, "test_image_bimodal_user_open.jpg", ret_image)
-      elif args["morph"] == cfg.MORPH_ARG_CLOSE:
-        ret_image = mo.close(intermediate_image, 1 )
-        imgh.writeImage(imgh.BIN, "test_image_bimodal_user_close.jpg", ret_image)
+      for morph_arg in args["morph"]:
+        if morph_arg == cfg.MORPH_ARG_ERODE:
+          ret_image = mo.erode(intermediate_image, 1 )
+          imgh.writeImage(imgh.BIN, "test_image_bimodal_user_erode.jpg", ret_image)
+        if morph_arg == cfg.MORPH_ARG_DILATE:
+          ret_image = mo.dilate(intermediate_image, 1 )
+          imgh.writeImage(imgh.BIN, "test_image_bimodal_user_dilation.jpg", ret_image)
+        if morph_arg == cfg.MORPH_ARG_OPEN:
+          ret_image = mo.open(intermediate_image, 1 )
+          imgh.writeImage(imgh.BIN, "test_image_bimodal_user_open.jpg", ret_image)
+        if morph_arg == cfg.MORPH_ARG_CLOSE:
+          ret_image = mo.close(intermediate_image, 1 )
+          imgh.writeImage(imgh.BIN, "test_image_bimodal_user_close.jpg", ret_image)
 
     # TEST 
 
