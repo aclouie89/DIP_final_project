@@ -1,6 +1,5 @@
 # contains config variables
 DEFAULT_IMAGE_PATH = "./image/_raw/oscar_wilde_1.jpg"
-DEFAULT_USER_THRESHOLD = 220
 
 CONVERSION_ARG_BW = 0
 CONVERSION_ARG_BIN = 1

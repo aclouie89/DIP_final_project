@@ -64,7 +64,7 @@ def main():
         intermediate_image = imgh.invert(image)
         imgh.writeImage(imgh.BW, "test_image_inverted_discretegrayscale.jpg", intermediate_image)
     
-    elif args["conversion"].lower() == cfg.CONVERSION_ARG_BIN:
+    elif args["conversion"] == cfg.CONVERSION_ARG_BIN:
       if args["threshold"]:
         # user defined threshold image + threshold value
         [intermediate_image, user_threshold] = imgh.imageToBimodal(imgh.USER_THRESH, image, args["threshold"])
